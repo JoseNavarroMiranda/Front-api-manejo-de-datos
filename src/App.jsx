@@ -8,10 +8,11 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Login/>}/>
+
       <Route
       path="/dashboard"
       element={
-          <RouteProtected>
+          <RouteProtected allowedRoles={["editor"]}>
             <UserDashboard/>
           </RouteProtected>
       }/>

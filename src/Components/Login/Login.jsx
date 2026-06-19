@@ -15,12 +15,12 @@ const Login = () => {
   const [loading, setLoading] = useState (false);
   const [error, setError] = useState (null);
   const navigate = useNavigate();
-
+  
   const handleSubmit = async (e) =>{
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+    
     try{
       
       const data = await loginService(username , password);
@@ -28,6 +28,7 @@ const Login = () => {
       localStorage.setItem("token", data.access_token);
       
       const decodedToken = jwtDecode(data.access_token);
+
       const role = decodedToken.role;
       
       if (role == "editor"){
@@ -37,7 +38,7 @@ const Login = () => {
       }else if(role == "viewer"){
         navigate ("/viewer");
       }
-      
+
     }catch (err){
       setError(err.message)
     }finally{
