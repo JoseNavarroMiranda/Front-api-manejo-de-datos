@@ -1,17 +1,35 @@
-import { Routes, Route } from "react-router-dom";
+import {  Route, Routes } from "react-router-dom";
 
-import Login from "./Components/Login/Login.jsx";
-import Background from "./Components/Background.jsx";
 import UserDashboard from "./Components/User/UserDashboard.jsx";
+import RouteProtected from "./Components/RouteNav/RouteProtected.jsx";
+import Login from "./Components/Login/Login.jsx";
 
 function App() {
   return (
-      <Background>
-        <Routes>
-          <Route path="/" element={<Login />}></Route>
-          <Route path="/dashboard" element={<UserDashboard />}></Route>
-        </Routes>
-      </Background>
+    <Routes>
+      <Route path="/" element={<Login/>}/>
+      <Route
+      path="/dashboard"
+      element={
+          <RouteProtected>
+            <UserDashboard/>
+          </RouteProtected>
+      }/>
+      
+      <Route
+      path="/viewer"
+      element={
+          <RouteProtected>
+          </RouteProtected>
+      }/>
+      
+      <Route
+      path="/admin"
+      element={
+          <RouteProtected>
+          </RouteProtected>
+      }/>
+    </Routes>
   );
 }
 

@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { loginService } from "../../Service/loginService";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+
+
+import Background from "../Background/Background";
 
 
 
@@ -18,9 +22,22 @@ const Login = () => {
     setError(null);
 
     try{
-      await loginService(username , password);
-      navigate("/dashboard")
-
+      
+      const data = await loginService(username , password);
+      
+      localStorage.setItem("token", data.access_token);
+      
+      const decodedToken = jwtDecode(data.access_token);
+      const role = decodedToken.role;
+      
+      if (role == "editor"){
+        navigate("/dashboard");
+      }else if (role == "admin"){
+        navigate("/admin");
+      }else if(role == "viewer"){
+        navigate ("/viewer");
+      }
+      
     }catch (err){
       setError(err.message)
     }finally{
@@ -32,6 +49,7 @@ const Login = () => {
 
 
   return (
+    <Background>
     <div className="min-h-screen flex items-center justify-center ">
       <div className="bg-white backdrop-blur-md rounded-2xl shadow-2xl p-8 sm:w-full max-w-md">
         <h1 className="text-2xl font-bold text-Black text-center mb-8">
@@ -74,6 +92,7 @@ const Login = () => {
         </form>
       </div>
     </div>
+  </Background>
   );
 };
 

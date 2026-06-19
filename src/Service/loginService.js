@@ -11,7 +11,7 @@ export const loginService = async (username, password) => {
     const data = await response.json();
     
     if(!response.ok){
-        throw new Error(data.message || response.statusText);
+        throw new Error(data.detail || data.message || "Fallo el servicio de inicio de sesion");
     }
     return data
 }
